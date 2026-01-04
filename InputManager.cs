@@ -14,6 +14,7 @@ namespace MACG.InputManager
         /// </summary>
         public static bool ReadInput = true;
 
+        #region GetKey
         public static bool GetKeyDown(Key keyCode)
         {
             if (!ReadInput || Keyboard.current == null) return false;
@@ -31,7 +32,9 @@ namespace MACG.InputManager
             if (!ReadInput || Keyboard.current == null) return false;
             return Keyboard.current[keyCode].isPressed;
         }
+        #endregion
 
+        #region AnyKey
         public static bool anyKey()
         {
             if (!ReadInput || Keyboard.current == null) return false;
@@ -49,7 +52,9 @@ namespace MACG.InputManager
             if (!ReadInput || Keyboard.current == null) return false;
             return Keyboard.current.anyKey.wasReleasedThisFrame;
         }
+        #endregion
 
+        #region Mouse
         public static bool GetMouseButton(int value)
         {
             if (!ReadInput || Mouse.current == null) return false;
@@ -97,5 +102,6 @@ namespace MACG.InputManager
                     return false;
             }
         }
+        #endregion
     }
 }
