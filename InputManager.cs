@@ -105,9 +105,40 @@ namespace MACG.InputManager
         #endregion
 
         #region Axis
+        static float h, v;
+        const float gravity = 3f;
+        const float sensitivity = 3f;
+
         public static float GetAxis(string axisName)
         {
-            if (!ReadInput) return 0;
+            if (!ReadInput) return 0f;
+            switch (axisName)
+            {
+                case "Horizontal":
+                    float targetH = GetAxisRaw("Horizontal");
+                    h = Mathf.MoveTowards(h, targetH,
+                        (Mathf.Abs(targetH) > 0f ? sensitivity : gravity) * Time.deltaTime);
+                    return h;
+
+                case "Vertical":
+                    float targetV = GetAxisRaw("Vertical");
+                    v = Mathf.MoveTowards(v, targetV,
+                        (Mathf.Abs(targetV) > 0f ? sensitivity : gravity) * Time.deltaTime);
+                    return v;
+
+                case "Mouse X":
+                case "Mouse Y":
+                case "Jump":
+                    return GetAxisRaw(axisName);
+
+                default:
+                    throw new System.NotImplementedException(axisName);
+            }
+        }
+
+        public static float GetAxisRaw(string axisName)
+        {
+            if (!ReadInput) return 0f;
             switch (axisName)
             {
                 case "Horizontal":
@@ -139,14 +170,10 @@ namespace MACG.InputManager
                     return Mathf.Clamp(gamepadY + keyboardY, -1f, 1f);
 
                 case "Mouse X":
-                    if (Mouse.current != null)
-                        return Mouse.current.delta.x.ReadValue();
-                    return 0f;
+                    return Mouse.current != null ? Mouse.current.delta.x.ReadValue() : 0f;
 
                 case "Mouse Y":
-                    if (Mouse.current != null)
-                        return Mouse.current.delta.y.ReadValue();
-                    return 0f;
+                    return Mouse.current != null ? Mouse.current.delta.y.ReadValue() : 0f;
 
                 case "Jump":
                     if (Keyboard.current != null && Keyboard.current.spaceKey.isPressed) return 1f;
