@@ -103,5 +103,60 @@ namespace MACG.InputManager
             }
         }
         #endregion
+
+        #region Axis
+        public static float GetAxis(string axisName)
+        {
+            if (!ReadInput) return 0;
+            switch (axisName)
+            {
+                case "Horizontal":
+                    float gamepadX = 0f;
+                    if (Gamepad.current != null)
+                        gamepadX = Gamepad.current.leftStick.x.ReadValue() + Gamepad.current.dpad.x.ReadValue();
+
+                    float keyboardX = 0f;
+                    if (Keyboard.current != null)
+                    {
+                        keyboardX += Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed ? -1f : 0f;
+                        keyboardX += Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed ? 1f : 0f;
+                    }
+
+                    return Mathf.Clamp(gamepadX + keyboardX, -1f, 1f);
+
+                case "Vertical":
+                    float gamepadY = 0f;
+                    if (Gamepad.current != null)
+                        gamepadY = Gamepad.current.leftStick.y.ReadValue() + Gamepad.current.dpad.y.ReadValue();
+
+                    float keyboardY = 0f;
+                    if (Keyboard.current != null)
+                    {
+                        keyboardY += Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed ? 1f : 0f;
+                        keyboardY += Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed ? -1f : 0f;
+                    }
+
+                    return Mathf.Clamp(gamepadY + keyboardY, -1f, 1f);
+
+                case "Mouse X":
+                    if (Mouse.current != null)
+                        return Mouse.current.delta.x.ReadValue();
+                    return 0f;
+
+                case "Mouse Y":
+                    if (Mouse.current != null)
+                        return Mouse.current.delta.y.ReadValue();
+                    return 0f;
+
+                case "Jump":
+                    if (Keyboard.current != null && Keyboard.current.spaceKey.isPressed) return 1f;
+                    if (Gamepad.current != null && Gamepad.current.buttonSouth.isPressed) return 1f;
+                    return 0f;
+
+                default:
+                    throw new System.NotImplementedException($"No mapping for axis {axisName}");
+            }
+        }
+        #endregion
     }
 }

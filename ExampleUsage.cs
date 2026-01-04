@@ -13,5 +13,8 @@ public class ExampleUsage : MonoBehaviour
 
         if (InputManager.GetMouseButtonDown(0)) Debug.Log("Used left click button!");
         else if (InputManager.GetMouseButtonUp(0)) Debug.Log("Released the left click!");
+
+        float h = InputManager.GetAxis("Horizontal") * Time.deltaTime * 5f;
+        transform.Translate(Vector3.right * h);
     }
 }
