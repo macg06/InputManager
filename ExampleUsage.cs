@@ -11,7 +11,7 @@ public class ExampleUsage : MonoBehaviour
 
         if (InputManager.GetMouseButton(0)) Debug.Log("Pressing the right click...");
 
-        if (InputManager.GetMouseButtonDown(0)) Debug.Log("Used right click button!");
-        else if (InputManager.GetMouseButtonUp(0)) Debug.Log("Released the right click!");
+        if (InputManager.GetMouseButtonDown(0)) Debug.Log("Used left click button!");
+        else if (InputManager.GetMouseButtonUp(0)) Debug.Log("Released the left click!");
     }
 }
