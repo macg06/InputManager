@@ -55,6 +55,13 @@ namespace MACG.InputManager
         #endregion
 
         #region Mouse
+
+        public static Vector2 MouseDelta()
+        {
+            if(!ReadInput) return Vector2.zero;
+            return Mouse.current.delta.ReadValue();
+        }
+
         public static bool GetMouseButton(int value)
         {
             if (!ReadInput || Mouse.current == null) return false;
